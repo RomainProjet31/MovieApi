@@ -1,6 +1,6 @@
+import { Message } from '../domain/message';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { config } from 'process';
 import { Configuration } from '../domain/configuration';
 import { Movie } from '../domain/movie';
 import { MovieService } from '../services/movieService';
@@ -25,6 +25,9 @@ export class MovieListComponent implements OnInit {
   rightArrow: boolean;
   maxPageToShow: number;
   pagesToShow: number[];
+  messageManager: Message;
+  msgToShow: string;
+  loading: boolean;
 
   constructor(builder: FormBuilder, private movieService: MovieService) {
     this.formGroup = builder.group({
@@ -39,23 +42,44 @@ export class MovieListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.messageManager = new Message();
     this.movieService.getBaseUrl().subscribe(configuration => this.configuration = configuration);
   }
 
   search() {
     if (this.formGroup.valid) {
+      this.result = [];
+      this.loading = true;
       this.error = false;
       const title = this.formGroup.get('title').value;
-      const limit = this.formGroup.get('limit').value;
       const adultContent = this.formGroup.get('adultContent').value;
-      this.movieService.getMovieByName(title, adultContent).subscribe(result => {
-        this.resultNoLimit = result.results;
-        this.pageIndex = 0;
-        this.getPage();
-      });
+      const timeOut = adultContent ? 1000 : 0;
+      this.manageMessageWarning(adultContent);
+      setTimeout(() => {
+        this.updateMovies(title, adultContent);
+        this.loading = false;
+      }, timeOut);
     } else {
       this.error = true;
     }
+  }
+
+  manageMessageWarning(adultContent: boolean) {
+    if (adultContent) {
+      this.msgToShow = this.messageManager.getMessage();
+    }
+    else {
+      this.msgToShow = '';
+      this.messageManager.reset();
+    }
+  }
+
+  updateMovies(title: string, adultContent: boolean) {
+    this.movieService.getMovieByName(title, adultContent).subscribe(result => {
+      this.resultNoLimit = result.results;
+      this.pageIndex = 0;
+      this.getPage();
+    });
   }
 
   incrementPage() {
@@ -87,9 +111,12 @@ export class MovieListComponent implements OnInit {
   changePageToShow() {
     this.pagesToShow = [];
     const limit = this.formGroup.get('limit').value;
-    const minPageIndex = this.pageIndex + 2;
+    const minPageIndex = this.pageIndex == 0 ? this.pageIndex + 2 : this.pageIndex;
     const calculatedMax = minPageIndex + 3;
-    this.maxPageToShow = this.resultNoLimit.length / limit - 1;
+
+    this.maxPageToShow = this.resultNoLimit.length / limit;
+    console.log(this.maxPageToShow, calculatedMax, this.resultNoLimit.length, limit);
+
     this.maxPageToShow = calculatedMax >= this.maxPageToShow ? this.maxPageToShow : calculatedMax;
     for (let i = minPageIndex; i <= this.maxPageToShow; i++) {
       this.pagesToShow.push(i);

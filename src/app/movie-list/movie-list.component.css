@@ -64,3 +64,9 @@
 footer {
     background-color: gray;
 }
+
+.loading {
+    text-align: center;
+    font-style: italic;
+    font-size: larger;
+}

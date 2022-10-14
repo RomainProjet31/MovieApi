@@ -1,0 +1,24 @@
+.card {
+    width: 25vw;
+    height: 40vh;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.card .title {
+    font-weight: bold;
+    text-align: center;
+    max-height: 10%;
+    overflow-y: auto;
+}
+
+.card .description {
+    font-size: medium;
+    max-height: 30%;
+    overflow-y: auto;
+}
+
+.card img {
+    width: 100%;
+    height: 50%;
+}

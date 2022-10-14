@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~material-icons/iconfont/material-icons.css';
+.material-icons {
+    font-family: 'Material Icons' !important;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: rgb(74, 171, 255);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.errMsg {
+    color: red;
+    font-style: italic;
+    text-align: center;
+}

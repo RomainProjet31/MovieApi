@@ -1,0 +1,17 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <mat-select id="nbLines" formControlName="limit">
+            <mat-option *ngFor="let limit of this.limits" [value]="limit">
+                {{limit}}
+            </mat-option>
+        </mat-select>
+        <input type="text" id="search" name="title" formControlName="title" placeholder="the avengers" />
+        <button id="submit" (click)="search()"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    </button>
+    </div>
+</form>
+<div class="errMsg" *ngIf="error">{{errorMsg}}</div>
+
+<div class="movieList">
+    <app-movie *ngFor="let movie of this.result" [movie]="movie" [baseUrl]="configuration.images.base_url"></app-movie>
+</div>

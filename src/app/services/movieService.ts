@@ -15,8 +15,10 @@ export class MovieService {
 
     constructor(private httpClient: HttpClient) { }
 
-    getMovieByName(name: string): Observable<Result> {
-        const apiPath = this.api_root + 'search/movie?api_key=' + this.token + '&language=fr&query=' + name + '&page=1&include_adult=true';
+    getMovieByName(name: string, adultContent: boolean): Observable<Result> {
+        console.log(adultContent);
+        
+        const apiPath = this.api_root + 'search/movie?api_key=' + this.token + '&language=fr&query=' + name + '&page=1&include_adult=' + adultContent;
         return this.httpClient.get<Result>(apiPath);
     }
 

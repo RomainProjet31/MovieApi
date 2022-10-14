@@ -1,10 +1,16 @@
 <form [formGroup]="formGroup">
     <div class="row">
-        <mat-select id="nbLines" formControlName="limit">
-            <mat-option *ngFor="let limit of this.limits" [value]="limit">
-                {{limit}}
-            </mat-option>
-        </mat-select>
+        <div class="col" id="leftForm">
+            <mat-select id="nbLines" formControlName="limit">
+                <mat-option *ngFor="let limit of this.limits" [value]="limit">
+                    {{limit}}
+                </mat-option>
+            </mat-select>
+            <div class="row">
+                <input type="checkbox" name="adultContent" id="adultContent" checked formControlName="adultContent" />
+                <label for="adultContent">Contenu pour adulte</label>
+            </div>
+        </div>
         <input type="text" id="search" name="title" formControlName="title" placeholder="the avengers" />
         <button id="submit" (click)="search()">
             <i class="material-icons">search</i>
@@ -16,11 +22,13 @@
 <div class="movieList">
     <app-movie *ngFor="let movie of this.result" [movie]="movie" [baseUrl]="configuration.images.base_url"></app-movie>
 </div>
-<hr>
-<div class="pageSelector">
-    <button (click)="setPage(0)" *ngIf="this.leftArrow"><i class="material-icons">keyboard_double_arrow_left</i></button>
-    <button (click)="decrementPage()" *ngIf="this.leftArrow"><i class="material-icons">chevron_left</i></button>
-    <button *ngFor="let pageToShow of this.pagesToShow" (click)="setPage(pageToShow-1)">{{pageToShow}}</button>
-    <button (click)="incrementPage()" *ngIf="this.rightArrow"><i class="material-icons">chevron_right</i></button>
-    <button (click)="setPage(this.maxPageToShow)" *ngIf="this.rightArrow"><i class="material-icons">keyboard_double_arrow_right</i></button>
-</div>
+<footer>
+    <hr>
+    <div class="pageSelector">
+        <button (click)="setPage(0)" *ngIf="this.leftArrow"><i class="material-icons">keyboard_double_arrow_left</i></button>
+        <button (click)="decrementPage()" *ngIf="this.leftArrow"><i class="material-icons">chevron_left</i></button>
+        <button *ngFor="let pageToShow of this.pagesToShow" (click)="setPage(pageToShow-1)">{{pageToShow}}</button>
+        <button (click)="incrementPage()" *ngIf="this.rightArrow"><i class="material-icons">chevron_right</i></button>
+        <button (click)="setPage(this.maxPageToShow)" *ngIf="this.rightArrow"><i class="material-icons">keyboard_double_arrow_right</i></button>
+    </div>
+</footer>

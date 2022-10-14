@@ -29,7 +29,8 @@ export class MovieListComponent implements OnInit {
   constructor(builder: FormBuilder, private movieService: MovieService) {
     this.formGroup = builder.group({
       title: [null, Validators.required],
-      limit: [10, Validators.required]
+      limit: [10, Validators.required],
+      adultContent: [false, Validators.required]
     });
     this.errorMsg = "Veuillez renseigner le nombre de films à afficher et le titre du film"
     this.error = false;
@@ -46,11 +47,11 @@ export class MovieListComponent implements OnInit {
       this.error = false;
       const title = this.formGroup.get('title').value;
       const limit = this.formGroup.get('limit').value;
-      this.movieService.getMovieByName(title).subscribe(result => {
+      const adultContent = this.formGroup.get('adultContent').value;
+      this.movieService.getMovieByName(title, adultContent).subscribe(result => {
         this.resultNoLimit = result.results;
         this.pageIndex = 0;
         this.getPage();
-        console.log(this.result);
       });
     } else {
       this.error = true;
@@ -76,11 +77,11 @@ export class MovieListComponent implements OnInit {
     const limit = this.formGroup.get('limit').value;
     this.leftIndex = (limit + 1) * this.pageIndex;
     const rightIndex = this.leftIndex + limit;
-    console.log(this.leftIndex, rightIndex);
     this.result = this.resultNoLimit.slice(this.leftIndex, rightIndex);
     this.rightArrow = rightIndex < this.resultNoLimit.length;
     this.leftArrow = this.leftIndex > 0;
     this.changePageToShow();
+    this.toTheTop();
   }
 
   changePageToShow() {
@@ -95,5 +96,8 @@ export class MovieListComponent implements OnInit {
     }
   }
 
+  toTheTop() {
+    window.scroll(0, 0);
+  }
 
 }

@@ -1,48 +1,56 @@
-        #search {
-            width: 80%;
-            height: 10vh;
-            border-radius: 100px;
-            font-size: xx-large;
-            text-align: center;
-            font-style: italic;
-            margin-top: 1%;
-            color: white;
-            background-color: rgb(114, 123, 129);
-            border: solid rgb(255, 255, 255) 2px;
-        }
-        
-        #search:active {
-            border: solid rgb(128, 128, 237) 2px;
-        }
-        
-        #nbLines {
-            width: 5vw;
-            height: fit-content;
-            margin-top: 3%;
-            margin-right: 1%;
-            margin-left: 2%;
-            text-align: center;
-            border-radius: 5px;
-            background-color: rgb(213, 203, 203);
-            border: solid rgb(255, 255, 255) 1px;
-        }
-        
-        #submit {
-            width: 3vw;
-            height: 3vw;
-            margin-top: 2%;
-            margin-left: 1%;
-        }
-        
-        #submit:hover {
-            cursor: pointer;
-        }
-        
-        .movieList {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px;
-            grid-auto-rows: auto;
-            margin-top: 2%;
-            margin-left: 5%;
-        }
+#search {
+    width: 80%;
+    height: 10vh;
+    border-radius: 100px;
+    font-size: xx-large;
+    text-align: center;
+    font-style: italic;
+    margin-top: 1%;
+    color: white;
+    background-color: rgb(114, 123, 129);
+    border: solid rgb(255, 255, 255) 2px;
+}
+
+#search:active {
+    border: solid rgb(128, 128, 237) 2px;
+}
+
+#nbLines {
+    width: 5vw;
+    height: fit-content;
+    margin-top: 3%;
+    margin-right: 1%;
+    margin-left: 2%;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgb(213, 203, 203);
+    border: solid rgb(255, 255, 255) 1px;
+}
+
+#submit {
+    width: 3vw;
+    height: 3vw;
+    border: none;
+    margin-top: 2%;
+    margin-left: 1%;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+
+#submit:hover {
+    cursor: pointer;
+    background-color: rgb(181, 181, 181);
+}
+
+.movieList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: auto;
+    margin-top: 2%;
+    margin-left: 5%;
+}
+
+.pageSelector {
+    margin-left: 50%;
+}

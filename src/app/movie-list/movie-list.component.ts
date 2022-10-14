@@ -16,8 +16,15 @@ export class MovieListComponent implements OnInit {
   limits: number[] = [5, 10, 50, 100];
   errorMsg: string;
   error: boolean;
+  leftIndex: number;
+  pageIndex: number;
   result: Movie[];
+  resultNoLimit: Movie[];
   configuration: Configuration;
+  leftArrow: boolean;
+  rightArrow: boolean;
+  maxPageToShow: number;
+  pagesToShow: number[];
 
   constructor(builder: FormBuilder, private movieService: MovieService) {
     this.formGroup = builder.group({
@@ -27,6 +34,7 @@ export class MovieListComponent implements OnInit {
     this.errorMsg = "Veuillez renseigner le nombre de films à afficher et le titre du film"
     this.error = false;
     this.result = [];
+    this.pageIndex = 0;
   }
 
   ngOnInit() {
@@ -39,11 +47,53 @@ export class MovieListComponent implements OnInit {
       const title = this.formGroup.get('title').value;
       const limit = this.formGroup.get('limit').value;
       this.movieService.getMovieByName(title).subscribe(result => {
-        this.result = result.results.slice(0, limit);
+        this.resultNoLimit = result.results;
+        this.pageIndex = 0;
+        this.getPage();
         console.log(this.result);
       });
     } else {
       this.error = true;
     }
   }
+
+  incrementPage() {
+    this.pageIndex++;
+    this.getPage();
+  }
+
+  decrementPage() {
+    this.pageIndex--;
+    this.getPage();
+  }
+
+  setPage(pageIndex: number) {
+    this.pageIndex = pageIndex;
+    this.getPage();
+  }
+
+  getPage() {
+    const limit = this.formGroup.get('limit').value;
+    this.leftIndex = (limit + 1) * this.pageIndex;
+    const rightIndex = this.leftIndex + limit;
+    console.log(this.leftIndex, rightIndex);
+    this.result = this.resultNoLimit.slice(this.leftIndex, rightIndex);
+    this.rightArrow = rightIndex < this.resultNoLimit.length;
+    this.leftArrow = this.leftIndex > 0;
+    this.changePageToShow();
+  }
+
+  changePageToShow() {
+    this.pagesToShow = [];
+    const limit = this.formGroup.get('limit').value;
+    const minPageIndex = this.pageIndex + 2;
+    const calculatedMax = minPageIndex + 3;
+    this.maxPageToShow = this.resultNoLimit.length / limit - 1;
+    this.maxPageToShow = calculatedMax >= this.maxPageToShow ? this.maxPageToShow : calculatedMax;
+    for (let i = minPageIndex; i <= this.maxPageToShow; i++) {
+      this.pagesToShow.push(i);
+    }
+  }
+
+
 }
